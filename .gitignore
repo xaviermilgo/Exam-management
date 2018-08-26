@@ -38,8 +38,8 @@ testem.log
 yarn-error.log
 
 # e2e
-/e2e/*.js
-/e2e/*.map
+front-end/e2e/*.js
+front-end/e2e/*.map
 
 # System Files
 .DS_Store
@@ -162,46 +162,12 @@ ENV/
 # mypy
 .mypy_cache/
 
-
 ###ANGULAR 
 # compiled output
-/dist
-/tmp
-/out-tsc
+front-end/dist
+front-end/tmp
+front-end/out-tsc
 
 # dependencies
-/node_modules
+front-end/node_modules
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-/docs
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-# System Files
-.DS_Store
-Thumbs.db
