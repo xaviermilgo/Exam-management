@@ -1,0 +1,48 @@
+<div class="row" *ngIf="showExamForm1">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>Select Exam</nb-card-header>
+        <nb-card-body>
+          <form (ngSubmit)="getForm1()" #detailsForm1="ngForm">
+            <div class="form-group">
+              <label>Exam Year</label>
+              <select class="form-control" name="year" [(ngModel)]="examYear" required>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select class="form-control" name="role" [(ngModel)]="teacherRole" required>
+                <option>English 1 south</option>
+                <option>English 2 east</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>
+
+<div class="row" *ngIf="showExamForm2">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>Select Exam</nb-card-header>
+        <nb-card-body>
+          <form (ngSubmit)="getForm2()" #detailsForm2="ngForm">
+            <div class="form-group">
+              <label>Exam</label>
+              <select class="form-control" name="exam" [(ngModel)]="examName" required>
+                <option>End year</option>
+                <option>mid terms</option>
+                <option>RAT</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>
