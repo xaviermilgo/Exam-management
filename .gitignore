@@ -169,5 +169,5 @@ front-end/tmp
 front-end/out-tsc
 
 # dependencies
-front-end/node_modules
+front-end/node_modules/*
 

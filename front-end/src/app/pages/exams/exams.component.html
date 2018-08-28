@@ -1,22 +1,14 @@
+<ngx-notifications [notification]="notification"></ngx-notifications>
 <div class="row" *ngIf="showExamForm1">
     <div class="col-lg-6">
       <nb-card>
-        <nb-card-header>Select Exam</nb-card-header>
+        <nb-card-header>Class</nb-card-header>
         <nb-card-body>
           <form (ngSubmit)="getForm1()" #detailsForm1="ngForm">
-            <div class="form-group">
-              <label>Exam Year</label>
-              <select class="form-control" name="year" [(ngModel)]="examYear" required>
-                <option>2018</option>
-                <option>2017</option>
-                <option>2016</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Role</label>
+            <div *ngIf="teacher" class="form-group" >
+              <label>Select class</label>
               <select class="form-control" name="role" [(ngModel)]="teacherRole" required>
-                <option>English 1 south</option>
-                <option>English 2 east</option>
+                <option *ngFor="let role of teacher.roles" [ngValue]="role">{{role.class}} {{role.subject}}</option>
               </select>
             </div>
             <button type="submit" class="btn btn-danger">Submit</button>
@@ -29,15 +21,13 @@
 <div class="row" *ngIf="showExamForm2">
     <div class="col-lg-6">
       <nb-card>
-        <nb-card-header>Select Exam</nb-card-header>
+        <nb-card-header>Exam</nb-card-header>
         <nb-card-body>
           <form (ngSubmit)="getForm2()" #detailsForm2="ngForm">
-            <div class="form-group">
-              <label>Exam</label>
-              <select class="form-control" name="exam" [(ngModel)]="examName" required>
-                <option>End year</option>
-                <option>mid terms</option>
-                <option>RAT</option>
+            <div  *ngIf="teacher" class="form-group">
+              <label>Select Exam</label>
+              <select *ngIf="formExams" class="form-control" name="exam" [(ngModel)]="selectedFormExam" required>
+                <option *ngFor="let exam of formExams" [ngValue]="exam">{{exam.exam_name}}</option>
               </select>
             </div>
             <button type="submit" class="btn btn-danger">Submit</button>

@@ -67,7 +67,7 @@ JWT_AUTH = {
     'rest_framework_jwt.utils.jwt_response_payload_handler',
 
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=6000),
   
 }
 
@@ -153,7 +153,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE ='Africa/Nairobi'
 
 USE_I18N = True
 

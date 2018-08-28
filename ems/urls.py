@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^',include(('restLogin.urls','restLogin'),namespace="rest-login")),
+     url(r'^',include(('teachers.urls','teachers'),namespace="teachers")),
 ]
 
 if settings.DEBUG:
