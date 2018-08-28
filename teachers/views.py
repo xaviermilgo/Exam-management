@@ -7,10 +7,9 @@ from .models import Class,Form,Subjects,TeacherRoles,Student,Exam,Streams,Record
 
 
 @api_view(['GET'])
-# @permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, ))
 def get_teacher(request):
-    user= User.objects.get(username="mr.one")
-    teacher = Teacher.objects.get(user=user)
+    teacher = Teacher.objects.get(user=request.user)
     forms =list(set([i.class_name.form for i in teacher.roles.all()]))
     data={"name":request.user.username,"phone_number":teacher.phone_number,"roles":[],"form_exams":[]}
     for i in teacher.roles.all():
