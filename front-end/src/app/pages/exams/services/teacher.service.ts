@@ -9,9 +9,6 @@ import {Teacher,ExamFormResponse,SmartTable,ExamRecordResponse} from "./service"
 })
 export class TeacherService {
 
-  errorNotification:string
-  errorBool:boolean=false
-
   teacherData:Teacher;
   smartTableData:SmartTable;
 
@@ -36,7 +33,6 @@ export class TeacherService {
       },
     error=>{
       console.log(error)
-      this.handleError(error)
       reject()
     })
     })
@@ -47,19 +43,16 @@ export class TeacherService {
     const headers = this._headers.append('Authorization','JWT '+this.authToken);
     let promise=new Promise((resolve,reject)=>{
       this.http.post(this.recordPostUrl,record,{headers:headers}).toPromise().then(myResponse=>{
-        console.log(myResponse)
         resolve()
       },
     error=>{
       console.log(error)
-      this.handleError(error)
       reject()
     })
     })
     return promise  
-
   }
-  
+
   postExamForm(examFormData:ExamFormResponse){
     const headers = this._headers.append('Authorization','JWT '+this.authToken);
     let promise=new Promise((resolve,reject)=>{
@@ -70,24 +63,9 @@ export class TeacherService {
       },
     error=>{
       console.log(error)
-      this.handleError(error)
       reject()
     })
     })
     return promise   
   }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      this.errorBool=true
-      this.errorNotification="Error occured, try again"
-      console.error('An error occurred:', error.error.message);
-    } else if(error.status == 404) {
-      this.errorBool=true
-      this.errorNotification="Error 404"
-    } else if(error.status == 403) {
-      this.errorBool=true
-      this.errorNotification="Access denied, try logging in again"
-    }
-}
 }

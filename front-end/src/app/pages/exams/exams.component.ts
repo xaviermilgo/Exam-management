@@ -53,22 +53,14 @@ export class ExamsComponent implements OnDestroy,OnInit {
 
   loadTeacher(){
     this.teacherService.getTeacher().then(()=>{
-      if(this.teacherService.errorBool){
-        this.notification = {type:"error",title:"error",message:this.teacherService.errorNotification}
-        this.teacherService.errorBool=false
-      }
-      else{
-        this.teacher=this.teacherService.teacherData
-      }
+      this.teacher=this.teacherService.teacherData
+    }).catch(error =>{
+      this.notification = {type:"error",title:"Error",message:"Try again or check internet connection"}
     })
   }
 
   submitExamResponse(){
     this.teacherService.postExamForm(this.examResponseForm).then(()=>{
-      if(this.teacherService.errorBool){
-        this.notification = {type:"error",title:"error",message:"unable to retrieve table, try again or check internet connection"}
-        this.teacherService.errorBool=false
-      }else{
         this.tableColumns=this.teacherService.smartTableData.columns
         this.tableData=this.teacherService.smartTableData.rows
         this.showExamForm2=false
@@ -87,40 +79,37 @@ export class ExamsComponent implements OnDestroy,OnInit {
           columns: this.tableColumns,
         };
         this.showSmartTable= true
-      }
-      
+    }).catch(error =>{
+      this.notification = {type:"error",title:"Error",message:"unable to retrieve table, try again or check internet connection"}
     })
   }
 
   submitRecord(record:ExamRecordResponse){
     this.teacherService.postExamRecord(record).then(()=>{
-      if(this.teacherService.errorBool){
-        this.notification = {type:"error",title:"Server error",message:"record not saved,try again or check internet connection"}
-        this.teacherService.errorBool=false
-      }
-      else{
-        this.notification = {type:"success",title:"success",message:"Record saved"}
-      }
+      this.notification = {type:"success",title:"success",message:"Record saved"}
+    }).catch(error =>{
+      this.notification = {type:"error",title:"Server error",message:"record not saved,try again or check internet connection"}
     })
   }
 
   submitForm1(){
-    console.log(this.teacherRole)
-    this.examResponseForm.role=this.teacherRole
-    for(var i=0; i < this.teacher.form_exams.length; i++){
-      if(this.teacherRole.form == this.teacher.form_exams[i].form){
-        this.formExams=this.teacher.form_exams[i].exams
+    if(this.teacherRole){
+      this.examResponseForm.role=this.teacherRole
+      for(var i=0; i < this.teacher.form_exams.length; i++){
+        if(this.teacherRole.form == this.teacher.form_exams[i].form){
+          this.formExams=this.teacher.form_exams[i].exams
+        }
       }
+      this.showExamForm1=false
+      this.showExamForm2=true
     }
-    this.showExamForm1=false
-    this.showExamForm2=true
   }
 
   submitForm2(){
-    console.log(this.selectedFormExam)
-    this.examResponseForm.exam=this.selectedFormExam
-    this.submitExamResponse()
-
+    if(this.selectedFormExam){
+      this.examResponseForm.exam=this.selectedFormExam
+      this.submitExamResponse()
+    }
   }
  
   validateScore(newData,prevData){
