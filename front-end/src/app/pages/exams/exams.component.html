@@ -1,10 +1,13 @@
 <ngx-notifications [notification]="notification"></ngx-notifications>
+<button (click)=goHome() type="button" class="btn btn-hero-primary">
+  Home
+</button>
 <div class="row" *ngIf="showExamForm1">
     <div class="col-lg-6">
       <nb-card>
         <nb-card-header>Class</nb-card-header>
         <nb-card-body>
-          <form (ngSubmit)="getForm1()" #detailsForm1="ngForm">
+          <form (ngSubmit)="submitForm1()" #detailsForm1="ngForm">
             <div *ngIf="teacher" class="form-group" >
               <label>Select class</label>
               <select class="form-control" name="role" [(ngModel)]="teacherRole" required>
@@ -23,7 +26,7 @@
       <nb-card>
         <nb-card-header>Exam</nb-card-header>
         <nb-card-body>
-          <form (ngSubmit)="getForm2()" #detailsForm2="ngForm">
+          <form (ngSubmit)="submitForm2()" #detailsForm2="ngForm">
             <div  *ngIf="teacher" class="form-group">
               <label>Select Exam</label>
               <select *ngIf="formExams" class="form-control" name="exam" [(ngModel)]="selectedFormExam" required>
@@ -35,4 +38,17 @@
         </nb-card-body>
       </nb-card>
     </div>
+</div>
+
+<div *ngIf="showSmartTable" class="row">
+  <nb-card>
+    <nb-card-header>
+      {{teacherRole.class}} {{teacherRole.subject}}
+    </nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="tableSettings" [source]="tableData"  
+      (editConfirm)="saveNewScore($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
 </div>

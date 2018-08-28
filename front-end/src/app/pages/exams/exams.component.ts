@@ -1,7 +1,12 @@
 import { Component, OnDestroy,OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {TeacherService,Teacher,Role,Exam,ExamFormResponse} from './services/teacher.service';
+import { SmartTableService } from '../../@core/data/smart-table.service';
+import { LocalDataSource } from 'ng2-smart-table';
+import {Router} from '@angular/router'
+import {TeacherService} from './services/teacher.service';
+import {Teacher,Role,Exam,ExamFormResponse,Columns,Rows,ExamRecordResponse} from './services/service'
+
 
 export interface Notification {
   type:string;
@@ -20,6 +25,7 @@ export class ExamsComponent implements OnDestroy,OnInit {
   themeSubscription: any;
   showExamForm1:boolean=true
   showExamForm2:boolean=false;
+  showSmartTable:boolean=false;
   examYear:string;
   examName:string;
   teacherRole:Role;
@@ -27,13 +33,22 @@ export class ExamsComponent implements OnDestroy,OnInit {
   formExams: Exam[];
   selectedFormExam:Exam;
   examResponseForm:ExamFormResponse;
-   
+  tableData: Rows[];
+  tableColumns:Columns;
+  tableSettings:any;
+  examRecord:ExamRecordResponse;
+
+
   constructor(private themeService: NbThemeService,
-              private teacherService:TeacherService){
+              private teacherService:TeacherService,
+              private router:Router,
+              ){
     this.themeSubscription = this.themeService.getJsTheme().subscribe(theme => {
       this.currentTheme = theme.name;
     });
     this.examResponseForm={}
+    this.examRecord={}
+    
   }
 
   loadTeacher(){
@@ -41,19 +56,55 @@ export class ExamsComponent implements OnDestroy,OnInit {
       if(this.teacherService.errorBool){
         this.notification = {type:"error",title:"error",message:this.teacherService.errorNotification}
         this.teacherService.errorBool=false
-        this.teacherService.errorNotification=''
       }
       else{
         this.teacher=this.teacherService.teacherData
       }
     })
   }
+
   submitExamResponse(){
     this.teacherService.postExamForm(this.examResponseForm).then(()=>{
-
+      if(this.teacherService.errorBool){
+        this.notification = {type:"error",title:"error",message:"unable to retrieve table, try again or check internet connection"}
+        this.teacherService.errorBool=false
+      }else{
+        this.tableColumns=this.teacherService.smartTableData.columns
+        this.tableData=this.teacherService.smartTableData.rows
+        this.showExamForm2=false
+        this.tableSettings = {
+          hideSubHeader:false,
+          actions:{
+            add: false,
+            delete:false,
+          },
+          edit: {
+            editButtonContent: '<i class="nb-edit"></i>',
+            saveButtonContent: '<i class="nb-checkmark"></i>',
+            cancelButtonContent: '<i class="nb-close"></i>',
+            confirmSave: true, 
+          },
+          columns: this.tableColumns,
+        };
+        this.showSmartTable= true
+      }
+      
     })
   }
-  getForm1(){
+
+  submitRecord(record:ExamRecordResponse){
+    this.teacherService.postExamRecord(record).then(()=>{
+      if(this.teacherService.errorBool){
+        this.notification = {type:"error",title:"Server error",message:"record not saved,try again or check internet connection"}
+        this.teacherService.errorBool=false
+      }
+      else{
+        this.notification = {type:"success",title:"success",message:"Record saved"}
+      }
+    })
+  }
+
+  submitForm1(){
     console.log(this.teacherRole)
     this.examResponseForm.role=this.teacherRole
     for(var i=0; i < this.teacher.form_exams.length; i++){
@@ -65,10 +116,50 @@ export class ExamsComponent implements OnDestroy,OnInit {
     this.showExamForm2=true
   }
 
-  getForm2(){
+  submitForm2(){
     console.log(this.selectedFormExam)
     this.examResponseForm.exam=this.selectedFormExam
     this.submitExamResponse()
+
+  }
+ 
+  validateScore(newData,prevData){
+    if(newData["score"]==prevData["score"]){
+      this.notification = {type:"error",title:"error",message:"No change detected"}
+      return false
+    }
+    var reg = new RegExp(/^\d*$/)
+    if(reg.test(newData["score"]) != true){
+      this.notification = {type:"error",title:"error",message:"Input must be a number"}
+      return false
+    }
+    var score = parseInt(newData["score"])
+    if(score>100 || score<0){
+      this.notification = {type:"error",title:"error",message:"Input must between range 0-100"}
+      return false
+    }
+    return true
+  }
+
+  saveNewScore(event){
+    console.log(event["newData"])
+    var state=this.validateScore(event["newData"],event["data"])
+    if(state===true){
+      this.examRecord.exam=this.selectedFormExam
+      this.examRecord.role=this.teacherRole
+      this.examRecord.student=event["newData"]
+      this.submitRecord(this.examRecord)
+      event.confirm.resolve();
+    }    
+  }
+  goHome(){
+    // reset
+    this.loadTeacher()
+    this.examResponseForm={}
+    this.examRecord={}
+    this.showSmartTable=false
+    this.showExamForm1=true
+    this.showExamForm2=false
   }
 
   ngOnDestroy(){
