@@ -48,7 +48,7 @@ export class ExamsComponent implements OnDestroy,OnInit {
     });
     this.examResponseForm={}
     this.examRecord={}
-    
+    this.teacher={}
   }
 
   loadTeacher(){
@@ -143,6 +143,8 @@ export class ExamsComponent implements OnDestroy,OnInit {
   }
   goHome(){
     // reset
+    this.teacher={}
+    this.formExams=[]
     this.loadTeacher()
     this.examResponseForm={}
     this.examRecord={}

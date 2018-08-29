@@ -1,13 +1,13 @@
+import re
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
 from .models import Class,Form,Subjects,TeacherRoles,Student,Exam,Streams,Records,Teacher
 
 def print_headers(request):
-    import re
     regex = re.compile('^HTTP_')
     x=dict((regex.sub('', header), value) for (header, value) 
         in request.META.items() if header.startswith('HTTP_'))
@@ -31,7 +31,6 @@ class GetRecordsView(APIView):
     def post(self, request, *args, **kwargs):
         self.teacher = Teacher.objects.get(user=request.user)
         self.post_data=request.data
-        print(self.post_data)
         if self.validate_data():
             if self.table_data():
                 return Response(self.smart_table)
@@ -78,7 +77,6 @@ class saveNewRecord(APIView):
     def post(self, request, *args, **kwargs):
         self.teacher = Teacher.objects.get(user=request.user)
         self.post_data=request.data
-        print(self.post_data)
         if self.validate_data():
             if self.update_score():
                 return Response({"success":"record updated"})

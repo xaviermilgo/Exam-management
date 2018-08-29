@@ -17,10 +17,10 @@ export interface Role {
   }
   
   export interface Teacher {
-    name: string;
-    phone_number: string;
-    roles: Role[];
-    form_exams: FormExam[];
+    name?: string;
+    phone_number?: string;
+    roles?: Role[];
+    form_exams?: FormExam[];
   }
   export interface ExamFormResponse{
     role?:Role;
