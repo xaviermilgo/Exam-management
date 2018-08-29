@@ -6,11 +6,18 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from .models import Class,Form,Subjects,TeacherRoles,Student,Exam,Streams,Records,Teacher
 
+def print_headers(request):
+    import re
+    regex = re.compile('^HTTP_')
+    x=dict((regex.sub('', header), value) for (header, value) 
+        in request.META.items() if header.startswith('HTTP_'))
+    print(x)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def get_teacher(request):
-    teacher = Teacher.objects.get(user=request.user)
+    user=User.objects.get(username="mr.one")
+    teacher = Teacher.objects.get(user=user)
     forms =list(set([i.class_name.form for i in teacher.roles.all()]))
     data={"name":request.user.username,"phone_number":teacher.phone_number,"roles":[],"form_exams":[]}
     for i in teacher.roles.all():
@@ -19,13 +26,6 @@ def get_teacher(request):
     for f in forms:
         data["form_exams"].append({"form":f.name,"exams":list({"id":e.id,"exam_name":e.__str__()} for e in f.exams.filter(editable=True))})
     return Response(data)
-
-@api_view(['POST'])
-@permission_classes((IsAuthenticated, ))
-def get_selected_records(request):
-    print(request.data)
-    return Response({"good","good"})
-
 
 class GetRecordsView(APIView):
     permission_classes = (IsAuthenticated,)

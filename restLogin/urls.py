@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^api-token-refresh', refresh_jwt_token),
     url(r'^api-token-verify', verify_jwt_token),
     url(r'^api-login-user', views.LoginUserView.as_view()),
+    url(r"^api-reset-pass", views.PasswordReset.as_view()),
 ]

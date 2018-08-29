@@ -38,9 +38,18 @@ export class NgxResetPasswordComponent {
     this.strategy = this.getConfigValue('forms.resetPassword.strategy');
   }
 
-  resetPass(): void {
+  resetPass2(){
+    console.log(this.strategy)
+  }
+
+  resetPass() {
     this.errors = this.messages = [];
+    if(this.user.password != this.user.confirmPassword){
+      return false
+    }
     this.submitted = true;
+
+    console.log(this.user)
 
     this.service.resetPassword(this.strategy, this.user).subscribe((result: NbAuthResult) => {
       this.submitted = false;

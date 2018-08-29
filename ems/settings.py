@@ -68,6 +68,7 @@ JWT_AUTH = {
 
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=6000),
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
   
 }
 
@@ -173,4 +174,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-

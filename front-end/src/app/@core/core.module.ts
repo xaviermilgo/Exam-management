@@ -45,6 +45,10 @@ export const NB_CORE_PROVIDERS = [
         resetPass: {
           endpoint: 'api-reset-pass',
           method: 'post',
+          redirect: {
+            success: '/auth/login',
+            failure: null,
+          },
         },
       }),
     ],

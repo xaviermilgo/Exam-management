@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient,HttpHeaders, HttpErrorResponse} from '@angular/common/http'
+import {HttpClient,HttpHeaders} from '@angular/common/http'
 import { NbAuthService } from '@nebular/auth';
 import {environment} from "../../../../environments/environment";
 import {Teacher,ExamFormResponse,SmartTable,ExamRecordResponse} from "./service"
@@ -24,7 +24,7 @@ export class TeacherService {
   }
 
   getTeacher(){
-    const headers = this._headers.append('Authorization','JWT '+this.authToken);
+    const headers = this._headers.append('Authorization','Bearer '+this.authToken);
     let promise=new Promise((resolve,reject)=>{
       this.http.get<Teacher>(this.teacherUrl,{headers:headers}).toPromise().then(myResponse=>{
         this.teacherData=myResponse
@@ -40,7 +40,7 @@ export class TeacherService {
   }
 
   postExamRecord(record:ExamRecordResponse){
-    const headers = this._headers.append('Authorization','JWT '+this.authToken);
+    const headers = this._headers.append('Authorization','Bearer '+this.authToken);
     let promise=new Promise((resolve,reject)=>{
       this.http.post(this.recordPostUrl,record,{headers:headers}).toPromise().then(myResponse=>{
         resolve()
@@ -54,7 +54,7 @@ export class TeacherService {
   }
 
   postExamForm(examFormData:ExamFormResponse){
-    const headers = this._headers.append('Authorization','JWT '+this.authToken);
+    const headers = this._headers.append('Authorization','Bearer '+this.authToken);
     let promise=new Promise((resolve,reject)=>{
       this.http.post<SmartTable>(this.examPostUrl,examFormData,{headers:headers}).toPromise().then(myResponse=>{
         this.smartTableData=myResponse

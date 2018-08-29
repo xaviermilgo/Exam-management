@@ -1,12 +1,11 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import {
-  // NbAuthComponent,
   NbLogoutComponent,
-  NbResetPasswordComponent,
 } from '@nebular/auth';
 import { NgxAuthComponent } from './@theme/components/auth/auth.component';
 import { NgxLoginComponent } from './@theme/components/auth/login/login.component';
+import { NgxResetPasswordComponent } from './@theme/components/auth/reset-password/reset-password.component';
 
 import { AuthGuard } from './auth-guard.service';
 
@@ -34,7 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'reset-password',
-        component: NbResetPasswordComponent,
+        component: NgxResetPasswordComponent,
       },
     ],
   },
