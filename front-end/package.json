@@ -1,14 +1,7 @@
 {
-  "name": "ngx-admin",
-  "version": "2.3.0",
+  "name": "examis",
+  "version": "0.0.1",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/akveo/ngx-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/akveo/ngx-admin/issues"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
@@ -50,17 +43,21 @@
     "@nebular/theme": "2.0.0-rc.10",
     "@ng-bootstrap/ng-bootstrap": "1.0.0",
     "@swimlane/ngx-charts": "7.0.1",
+    "angular-datatables": "^0.6.3",
     "angular-tree-component": "7.2.0",
     "angular2-chartjs": "0.4.1",
     "angular2-toaster": "6.0.0",
     "bootstrap": "4.0.0",
-    "chart.js": "2.7.1",
+    "chart.js": "^2.7.2",
     "ckeditor": "4.7.3",
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",
+    "datatables.net": "^1.10.19",
+    "datatables.net-dt": "^1.10.19",
     "echarts": "^4.0.2",
     "intl": "1.2.5",
     "ionicons": "2.0.1",
+    "jquery": "^3.3.1",
     "leaflet": "1.2.0",
     "nebular-icons": "1.0.9",
     "ng2-ckeditor": "1.1.13",
@@ -79,15 +76,18 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.6.0",
     "@angular/cli": "6.0.0",
     "@angular/compiler-cli": "6.0.0",
     "@angular/language-service": "6.0.0",
     "@compodoc/compodoc": "1.0.1",
     "@fortawesome/fontawesome-free": "^5.2.0",
     "@types/d3-color": "1.0.5",
+    "@types/datatables.net": "^1.10.13",
     "@types/googlemaps": "3.30.4",
     "@types/jasmine": "2.5.54",
     "@types/jasminewd2": "2.0.3",
+    "@types/jquery": "^3.3.6",
     "@types/leaflet": "1.2.3",
     "@types/node": "6.0.90",
     "codelyzer": "4.0.2",
@@ -102,13 +102,12 @@
     "karma-jasmine": "1.1.0",
     "karma-jasmine-html-reporter": "0.2.2",
     "npm-run-all": "4.0.2",
-    "protractor": "5.1.2",
+    "protractor": "^5.4.0",
     "rimraf": "2.6.1",
     "stylelint": "7.13.0",
     "ts-node": "3.2.2",
     "tslint": "5.7.0",
     "tslint-language-service": "0.9.6",
-    "typescript": "2.7.2",
-    "@angular-devkit/build-angular": "~0.6.0"
+    "typescript": "2.7.2"
   }
 }
