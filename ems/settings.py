@@ -75,6 +75,8 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jet',
+    # 'jet.dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,7 +105,9 @@ ROOT_URLCONF = 'ems.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'register', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -20,9 +20,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    # url(r'^jet/', include('jet.urls', 'jet')), 
+    # url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     url(r'^',include(('restLogin.urls','restLogin'),namespace="rest-login")),
-     url(r'^',include(('teachers.urls','teachers'),namespace="teachers")),
+    url(r'^',include(('teachers.urls','teachers'),namespace="teachers")),
 ]
 
 if settings.DEBUG:
