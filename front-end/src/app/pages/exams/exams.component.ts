@@ -1,12 +1,8 @@
 import { Component, OnDestroy,OnInit } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import { SmartTableService } from '../../@core/data/smart-table.service';
-import { LocalDataSource } from 'ng2-smart-table';
 import {Router} from '@angular/router'
+import { NbThemeService } from '@nebular/theme';
 import {TeacherService} from './services/teacher.service';
 import {Teacher,Role,Exam,ExamFormResponse,Columns,Rows,ExamRecordResponse} from './services/service'
-
 
 export interface Notification {
   type:string;

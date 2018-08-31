@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
-import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { LayoutService } from '../../../@core/data/layout.service';
 
@@ -20,7 +19,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
-              private userService: UserService,
               private analyticsService: AnalyticsService,
               private layoutService: LayoutService,
               private authService: NbAuthService) {
@@ -37,8 +35,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
   }
 
   toggleSidebar(): boolean {
