@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="app-{{ exam.name }} module">
+    <table>
+    <caption>
+        Exams
+    </caption>
+    {% for exam  in exams %}
+        <tr class="model-{{ c|lower }}">
+            <th scope="row"  colspan="2"><a href="/admin/select-class-form?exam_id={{exam.pk}}">{{exam.name}}</a></th>
+            <td>{{exam.term}}</td>
+            <td>{{exam.created_at | date}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+</div>
+{% endblock %}

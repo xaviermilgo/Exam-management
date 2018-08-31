@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <p>Select form/class to view</p>
+
+{% for form,classes in class_forms.items %}
+    <div class="app-{{ form.name }} module">
+    <table>
+    <caption>
+        <a href="/admin/view-results-list?type=form&type_id={{form.id}}&exam_id={{exam.id}}" class="section" > {{ form}}</a>
+    </caption>
+    {% for c in classes %}
+        <tr class="model-{{ c|lower }}">
+            <th scope="row"  colspan="2"><a href="/admin/view-results-list?type=class&type_id={{c.id}}&exam_id={{exam.id}}">{{c }}</a></th>
+            <th scope="row"  colspan="2"></th>
+            
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

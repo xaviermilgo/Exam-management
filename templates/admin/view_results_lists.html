@@ -1,0 +1,110 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'data_tables/dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">
+{% endblock %}
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+        window.appConfig = {
+         type:"{{type}}",
+         type_id:"{{dataObj.id}}",   
+         exam_id:"{{exam.id}}"
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/dataTables.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/jszip.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>{{dataObj}}</h2>
+                <h3>{{exam.name}}, {{exam.term}}, {{exam.created_at | date}}</h3>
+                <small>By default results are cached,press regrade button to compute results in case of any changes</small>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-info" id="regrade">Regrade</button>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="example" class="table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>admno</th>
+                            <th>name</th>
+                            <th>eng</th>
+                            <th>kisw</th>
+                            <th>math</th>
+                            <th>bio</th>
+                            <th>chem</th>
+                            <th>phyc</th>
+                            <th>hist</th>
+                            <th>geo</th>
+                            <th>cre</th>
+                            <th>bus</th>
+                            <th>comp</th>
+                            <th>agr</th>
+                            <th>frc</th>
+                            <th>mus</th>
+                            <th>ger</th>
+                            <th>points</th>
+                            <th>avg</th>
+                            <th>grade</th>
+                            <th>pos</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>admno</th>
+                            <th>name</th>
+                            <th>eng</th>
+                            <th>kisw</th>
+                            <th>math</th>
+                            <th>bio</th>
+                            <th>chem</th>
+                            <th>phyc</th>
+                            <th>hist</th>
+                            <th>geo</th>
+                            <th>cre</th>
+                            <th>bus</th>
+                            <th>comp</th>
+                            <th>agr</th>
+                            <th>frc</th>
+                            <th>mus</th>
+                            <th>ger</th>
+                            <th>points</th>
+                            <th>avg</th>
+                            <th>grade</th>
+                            <th>pos</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %} 
+
+
