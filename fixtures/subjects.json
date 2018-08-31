@@ -1,0 +1,137 @@
+[
+{
+    "model": "teachers.subjects",
+    "pk": 1,
+    "fields": {
+        "name": "Mathematics",
+        "abbreviation": "math",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 2,
+    "fields": {
+        "name": "English",
+        "abbreviation": "eng",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 3,
+    "fields": {
+        "name": "Kiswahili",
+        "abbreviation": "kisw",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 4,
+    "fields": {
+        "name": "Biology",
+        "abbreviation": "bio",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 5,
+    "fields": {
+        "name": "Agriculture",
+        "abbreviation": "agr",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 6,
+    "fields": {
+        "name": "Physics",
+        "abbreviation": "phy",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 7,
+    "fields": {
+        "name": "Chemistry",
+        "abbreviation": "chem",
+        "compulsory": true
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 8,
+    "fields": {
+        "name": "History",
+        "abbreviation": "hist",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 9,
+    "fields": {
+        "name": "Geography",
+        "abbreviation": "geo",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 10,
+    "fields": {
+        "name": "Computer Studies",
+        "abbreviation": "comp",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 11,
+    "fields": {
+        "name": "Business",
+        "abbreviation": "bus",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 12,
+    "fields": {
+        "name": "C.R.E",
+        "abbreviation": "cre",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 13,
+    "fields": {
+        "name": "French",
+        "abbreviation": "frc",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 14,
+    "fields": {
+        "name": "Music",
+        "abbreviation": "mus",
+        "compulsory": false
+    }
+},
+{
+    "model": "teachers.subjects",
+    "pk": 15,
+    "fields": {
+        "name": "Germany",
+        "abbreviation": "ger",
+        "compulsory": false
+    }
+}
+]

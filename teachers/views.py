@@ -2,18 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
 from django.views import View
 from django.conf import settings
 from django.http import HttpResponse,JsonResponse,HttpResponseBadRequest
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Class,Form,Subjects,TeacherRoles,Student,Exam,Streams,Records,Teacher, OverallGrade
+from .models import Class,Form,Subjects,TeacherRoles,Student,Exam,Streams,Records,Teacher, OverallGrade,Results
 import time,json
 from operator import itemgetter
 import os
 
 
-
+@login_required(login_url='/admin')
 def results_list(request):
     try:
         type_=request.GET.get("type")
@@ -32,11 +31,12 @@ def results_list(request):
         print(err)
         return HttpResponseBadRequest("Bad request")
 
-
+@login_required(login_url='/admin')
 def select_exam(request):
     exams=Exam.objects.all().order_by("-created_at")
     return render(request,"admin/select_exam_view.html",{"exams":exams})
-
+    
+@login_required(login_url='/admin')
 def select_class_form(request):
     try:
         exam_id=int(request.GET.get('exam_id'))
@@ -55,11 +55,10 @@ class ResultsView(LoginRequiredMixin,View):
         # self.teacher = Teacher.objects.get(user=request.user)
         self.post_data=request.GET
         if self.validate_request():
-            if self.get_records():
+            if self.get_records_postgres(): #self.get_records_json() if not using postgres
                 return JsonResponse(self.sorted_results)
             return JsonResponse({'error': 'Server error'}, status=500)
         return JsonResponse({'error': 'Bad request'}, status=400)  
-
 
     def validate_request(self):
         try:
@@ -88,12 +87,10 @@ class ResultsView(LoginRequiredMixin,View):
             print(err)
             return False
 
-    def get_records(self):
-        "type_typeId_examId.json"
+    def get_records_json(self):
         start=time.time()
         j_path=os.path.join(settings.BASE_DIR, 'results')
         if self.regrade=="false":
-            
             if not os.path.exists(j_path):
                 os.mkdir(j_path)
             if os.path.exists("{}/{}_{}_{}.json".format(j_path,self.type_,self.type_id,self.exam_id)):
@@ -101,22 +98,31 @@ class ResultsView(LoginRequiredMixin,View):
                     self.sorted_results=json.load(jfile)
                 print("Reading from json, time taken:{}".format(time.time()-start))
                 return True
-            elif self.get_records_from_db():
-                self.add_student_positions()
-                with open("{}/{}_{}_{}.json".format(j_path,self.type_,self.type_id,self.exam_id),"w") as jfile:
-                    json.dump(self.sorted_results,jfile)
-                print("Reading from database, time taken:{}".format(time.time()-start))
-                return True
-            return False
-        else:
-            if self.get_records_from_db():
-                self.add_student_positions()
-                with open("{}/{}_{}_{}.json".format(j_path,self.type_,self.type_id,self.exam_id),"w") as jfile:
-                    json.dump(self.sorted_results,jfile)
-                print("Reading from database, time taken:{}".format(time.time()-start))
-                return True
-            return False          
+    
+        if not self.exam.editable: return False
+        if self.get_records_from_db():
+            self.add_student_positions()
+            with open("{}/{}_{}_{}.json".format(j_path,self.type_,self.type_id,self.exam_id),"w") as jfile:
+                json.dump(self.sorted_results,jfile)
+            print("Reading from database, time taken:{}".format(time.time()-start))
+            return True
+        return False        
 
+    def get_records_postgres(self):
+        start=time.time()
+        if self.regrade=="false":
+            r=Results.objects.filter(type_name=self.type_,type_id=self.type_id,exam=self.exam)
+            if r.exists():
+                self.sorted_results=json.loads(r[0].results)
+                print("JsonField, time taken:{}".format(time.time()-start))
+                return True
+        if not self.exam.editable: return False
+        if self.get_records_from_db():
+            self.add_student_positions()
+            Results.objects.update_or_create(type_name=self.type_,type_id=self.type_id,exam=self.exam,results=json.dumps(self.sorted_results))
+            print("Reading from database, time taken:{}".format(time.time()-start))
+            return True
+        return False
 
     def get_records_from_db(self):
         self.unsorted_results=[]

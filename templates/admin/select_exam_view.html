@@ -16,6 +16,7 @@
     <caption>
         Exams
     </caption>
+    {% if exams %}
     {% for exam  in exams %}
         <tr class="model-{{ c|lower }}">
             <th scope="row"  colspan="2"><a href="/admin/select-class-form?exam_id={{exam.pk}}">{{exam.name}}</a></th>
@@ -23,6 +24,12 @@
             <td>{{exam.created_at | date}}</td>
         </tr>
     {% endfor %}
+    {% else %}
+    <tr class="model-no-exams">
+        <th scope="row"  colspan="2">No exams record found</th>
+        <th scope="row"  colspan="2"></th>
+    </tr>
+    {% endif %}
     </table>
     </div>
 </div>

@@ -3,8 +3,9 @@
 
 {% block extrastyle %}
 {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'data_tables/dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'data_tables/css/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'data_tables/css/bootstrap4.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'data_tables/css/dataTables.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">
 {% endblock %}
 {% block extrahead %}
@@ -16,15 +17,16 @@
          exam_id:"{{exam.id}}"
         }
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/dataTables.min.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/dataTables.buttons.min.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/jszip.min.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/pdfmake.min.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/vfs_fonts.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/buttons.html5.min.js' %}"></script>
-    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/jquery.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/dataTables.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/jszip.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'data_tables/js/buttons.print.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
 
@@ -42,9 +44,11 @@
                 <h3>{{exam.name}}, {{exam.term}}, {{exam.created_at | date}}</h3>
                 <small>By default results are cached,press regrade button to compute results in case of any changes</small>
             </div>
+            {% if exam.editable %}
             <div class="col-md-2">
                 <button class="btn btn-info" id="regrade">Regrade</button>
             </div>
+            {% endif %}
 
         </div>
         <div class="row">

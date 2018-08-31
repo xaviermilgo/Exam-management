@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import datetime
+from decouple import config,Csv
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7@+la+li@5^+8=4q#+ayal=8%biih1-+!igv)7ymt$qzl*=fpb'
+MODE=config("MODE", default="dev")
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 #REST AND CORS
 REST_FRAMEWORK = {
@@ -41,7 +44,11 @@ REST_FRAMEWORK = {
 }
 
 # @todo change in production
-CORS_ORIGIN_ALLOW_ALL=True
+# CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:4200',
+    'localhost:4200',
+)
 CORS_ALLOW_METHODS = (
     'GET',
     'OPTIONS',
@@ -89,6 +96,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,7 +111,9 @@ ROOT_URLCONF = 'ems.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'register', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,12 +132,40 @@ WSGI_APPLICATION = 'ems.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+if MODE=="dev":
+    # development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': '',
+        }
     }
-}
+    db_from_env = dj_database_url.config(conn_max_age=500)
+
+else:
+    # production
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
+    }
+    db_from_env = dj_database_url.config()
+    SECURE_SSL_REDIRECT=config('SECURE_SSL_REDIRECT', cast=bool)
+    SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
+    CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
+DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 
 
 # Password validation
@@ -169,8 +207,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    # ('front-end', os.path.join(BASE_DIR, 'front-end/dist')),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+

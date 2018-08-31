@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
+from django.contrib.postgres.fields import JSONField
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
@@ -134,4 +135,14 @@ class OverallGrade(models.Model):
 
     def __str__(self):
         return "{}-{} {}".format(self.low_points,self.high_points,self.name)
+
+class Results(models.Model):
+    # do not migrate if not using postgres 
+    TYPES=(("form","form"),("class","class"))
+    type_name=models.CharField(choices=TYPES,null=False,max_length=255)
+    type_id=models.CharField(max_length=20,null=False)
+    exam= models.ForeignKey("Exam", on_delete=models.PROTECT,related_name="results",null=False)
+    results = JSONField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
