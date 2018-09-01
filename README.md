@@ -2,7 +2,7 @@ Exam-management-information-system
 ==================================
 ## Description
 * This is an exam management information system that can be used by schools to record student grades by respective subject teachers via an online portal, the marks can then be graded and merit lists produced based on a grading system set by the admin.
-* Not fans of education system in our schools, very likely we wont be supporting this project, you can fork/clone it, make changes and write tests, even sell it and make a dime while some kid learns to hacks it and makes a dollar too.
+* Very likely we wont be supporting this project, you can fork/clone it, make changes and write tests, even sell it and make a dime while some kid learns to hacks it and makes a dollar too.
 
 ## Features
 * A teacher can enter marks from any location and device through a web interface.
