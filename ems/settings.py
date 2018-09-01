@@ -44,11 +44,8 @@ REST_FRAMEWORK = {
 }
 
 # @todo change in production
-# CORS_ORIGIN_ALLOW_ALL=True
-CORS_ORIGIN_WHITELIST = (
-    '127.0.0.1:4200',
-    'localhost:4200',
-)
+CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST', cast=Csv())
+
 CORS_ALLOW_METHODS = (
     'GET',
     'OPTIONS',
@@ -74,9 +71,8 @@ JWT_AUTH = {
     'rest_framework_jwt.utils.jwt_response_payload_handler',
 
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=6000),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=config('JWT_EXPIRATION_DAYS', default=3, cast=int)),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-  
 }
 
 # Application definition
